@@ -20,6 +20,15 @@ function send_message(req, res) //user or admin to user
 		return;
     }
 
+     receiver_user = global_scope.users_list.get_index(receiver_id)
+    
+    if(receiver_user === -1)
+    {
+        res.status( StatusCodes.FORBIDDEN );
+		res.send( "receiver id doesn't exist")
+		return;
+    }
+
     const message = req.body.message;
     let sender_name = ""
     //message from admin

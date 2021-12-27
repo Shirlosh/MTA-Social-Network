@@ -48,10 +48,11 @@ function message_all_users(req, res) //admin to all users
     
     const message = req.body.message;
     const users_list = global_scope.users_list.get_list()
+    let new_message = []
 
     users_list.forEach( user => { 
         if(user.id != 1)
-            new_message = global_scope.messages_list.add_message("Message from Admin: " + message, 1, user.id)
+            new_message.push(global_scope.messages_list.add_message("Message from Admin: " + message, 1, user.id))
         })
 
     res.status(StatusCodes.OK)

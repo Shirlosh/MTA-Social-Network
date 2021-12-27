@@ -12,7 +12,7 @@ function messages(req, res) //get user's messages
     }
     else
     {
-	res.send(JSON.stringify(user_messages))
+	    res.send(JSON.stringify(user_messages))
     }
 }
 

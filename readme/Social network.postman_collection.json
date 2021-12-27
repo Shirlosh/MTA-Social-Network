@@ -323,14 +323,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:2718/posts",
+					"raw": "http://localhost:2718/version",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "2718",
 					"path": [
-						"posts"
+						"version"
 					]
 				}
 			},

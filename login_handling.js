@@ -1,6 +1,7 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
 const global_scope = require('./global_consts')
 const users_handlings = require('./users/users_handling')
+const Status = require('./users/status')
 const jwt = require('jsonwebtoken');
 
 function login(req, res)
@@ -15,13 +16,23 @@ function login(req, res)
     return;
   }
 
+	const idx = global_scope.users_list.get_index(id)
+	let lst = global_scope.users_list.get_list()
+
+	if(lst[idx].status == Status.suspended)
+	{
+		res.status(StatusCodes.FORBIDDEN);
+		res.send("cannot login, this user has been suspended")
+		return;
+	}
+
   if (users_handlings.check_id(id, res, allow_admin=true))
   {
     if (global_scope.users_list.login_authentication(id,password))
     {
       res.status(StatusCodes.OK);
       create_token(res,id)
-      res.send("Logged in successfully")
+      res.send("user " + id +" logged in successfully")
       return;
     }
     else

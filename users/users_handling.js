@@ -37,15 +37,6 @@ function check_id(id, res, allow_admin=false)
 		res.send("id doesn't exist")
 		return null;
 	}
-
-	let lst = global_scope.users_list.get_list()
-	if(lst[idx].status == Status.suspended)
-	{
-		res.status(StatusCodes.FORBIDDEN);
-		res.send("cannot login, this user has been suspended")
-		return null;
-	}
-
 	return 1;
 }
 

@@ -10,7 +10,7 @@ class MessagesList {
         if(json != null)
         {
             json.forEach(data => {
-                this.messages_array.push(new Message(data.id, data.text, data.sent_date, data.sender_id, data.receiver_id))});
+                this.messages_array.push(new Message(data.id, data.message, data.sent_date, data.sender_id, data.receiver_id))});
         }
     }
 
@@ -28,13 +28,11 @@ class MessagesList {
     {
         const user_messages = []
 
-        for(message in this.messages_array)
-        {
-            if(user_id === message.receiver_id)
-            {
-                user_messages.push(message)
-            }
-        }
+        this.messages_array.forEach(msg => {
+            if(user_id === msg.receiver_id) 
+                user_messages.push(msg)
+            })
+            
         return user_messages
     }
 

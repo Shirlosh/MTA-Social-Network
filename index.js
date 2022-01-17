@@ -5,14 +5,38 @@ const UsersHandling = require('./users/users_handling');
 const PostsHandling = require('./posts/posts_handling');
 const MessagesHandling = require('./messages/messages_handling');
 const LoginHandling = require('./login_handling')
+const path = require('path');
 
 const app = express()
 let  port = 2718;
+const reExt = /\.([a-z]+)/i;
 
 // General app settings
+// const set_content_type = function (req, res, next) 
+// {
+// 	res.setHeader("Content-Type", "application/json; charset=utf-8");
+// 	next()
+// }
+function content_type_from_extension( url)
+{
+	const m = url.match( reExt );
+	if ( !m ) return 'application/json'
+	const ext = m[1].toLowerCase();
+
+	switch( ext )
+	{
+		case 'js': return 'text/javascript';
+		case 'css': return 'text/css';
+		case 'html': return 'text/html';
+	}
+
+	return 'text/plain'
+}
+
 const set_content_type = function (req, res, next) 
 {
-	res.setHeader("Content-Type", "application/json; charset=utf-8");
+	const content_type = req.baseUrl == '/api' ? "application/json; charset=utf-8" : content_type_from_extension( req.url)
+	res.setHeader("Content-Type", content_type);
 	next()
 }
 app.use( set_content_type );
@@ -55,8 +79,11 @@ router.post('/send_message/:receiver_id', (req, res) => {LoginHandling.token_che
 router.post('/message_users', (req, res) => {LoginHandling.token_checker(req,res,MessagesHandling.message_all_users)})
 
 app.use('/',router)
-app.use(cookieParser())
-app.use(LoginHandling.token_checker)
+//app.use(cookieParser())
+//app.use(LoginHandling.token_checker)
+
+app.use(express.static(path.join(__dirname, 'client'))); //added
+app.use('/api',router) //added
 
 // Init 
 let msg = `${package.description} listening at port ${port}`

@@ -27,10 +27,9 @@ button
 
 #sample-container
 {
-	margin-top: 5rem;
-	text-align: left;
-	color: blue;
-	margin-left: 30%;
+	text-align: center;
+	padding: 10rem;
+	font-size: 1rem;
 }
 
 .UserItem

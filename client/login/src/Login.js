@@ -8,9 +8,9 @@ class Login extends React.Component
 	}
 
 	async handleSubmit(event) {
-		console.log(event)
 		const id = event.target[0].value
 		const password = event.target[1].value
+		
 		const response = await fetch('/login',{
 			headers: {
             	'Content-Type':'application/json',

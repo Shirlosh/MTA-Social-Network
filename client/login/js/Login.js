@@ -9,7 +9,15 @@ class Login extends React.Component {
 		console.log(event);
 		const id = event.target[0].value;
 		const password = event.target[1].value;
-		const response = await fetch('/login', { method: 'POST', body: { id: id, password: password } });
+		const response = await fetch('/login', {
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify({ id: id, password: password })
+		});
+
 		if (response.status == 200) {
 			props.history.push('/home');
 		} else {

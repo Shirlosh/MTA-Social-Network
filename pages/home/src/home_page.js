@@ -1,10 +1,11 @@
+import login from "../../login/login.html";
 
 class HomePage extends React.Component 
 {
 	constructor(props) 
 	{
 		super(props);
-		//this.handleSubmit = this.handleSubmit.bind(this);
+		
 	}
 	// async handleSubmit(event) {
 	// 	const id = event.target[0].value
@@ -32,11 +33,6 @@ class HomePage extends React.Component
 	
 
 	render() {
-		// return <div>
-		// 	<button type="button" class="btn btn-primary">Posts</button>
-		// 	<button type="button" class="btn btn-primary">Message</button>
-		// 	<button type="button" class="btn btn-primary">logout</button>
-		// </div>
 		return <div>
 		<ReactButton name='Posts'/>
 		<ReactButton name='Messages'/>
@@ -49,24 +45,18 @@ class HomePage extends React.Component
 class ReactButton extends React.Component {
 	constructor(props) {
 	  super(props);
-	//   this.name = this.props.name
-	//   this.props.value = this.props.name
 	  this.state ={name: this.props.name};
 	  //this.handle_click = this.handle_click.bind( this ); 
 	}
 	
-	handle_click()
-	{
-		const new_state = {visible: false};
-		this.setState( new_state );
-	}
+	// handle_click()
+	// {
+	// 	props.history.push(login);
+	// }
   
 	render() {
-	//   return <button className={this.state.visible ? '' : 'hidden'}  
-	// 			  onClick={this.handle_click}>Hello {this.props.name ? this.props.name : 'No idea' }
-	// 		  </button>
 			return <div>
-			<button  type="button" class="btn btn-primary" value={this.state.name}>Not</button>
+			<button  type="button" class="btn btn-primary">{this.state.name}</button>
 		</div>
 	}
 }

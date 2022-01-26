@@ -82,7 +82,7 @@ app.use('/',router)
 //app.use(cookieParser())
 //app.use(LoginHandling.token_checker)
 
-app.use(express.static(path.join(__dirname, 'client'))); //added
+app.use(express.static(path.join(__dirname, 'pages'))); //added
 app.use('/api',router) //added
 
 // Init 

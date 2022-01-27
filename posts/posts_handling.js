@@ -21,6 +21,7 @@ function publish_post(req, res)
     if(req.user_data)
 	{
         new_post = global_scope.posts_list.add_post(post,req.user_data['id'])
+        res.status( StatusCodes.OK );
 		res.send(JSON.stringify(new_post))
 		return
 	}

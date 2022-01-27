@@ -6,11 +6,12 @@ class Login extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleSubmit(event) {
+	async handleSubmit(event) {
 		const id = event.target[0].value;
 		const password = event.target[1].value;
+		console.log("submit");
 
-		response = fetch('/login', {
+		const response = await fetch('/login', {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json'
@@ -18,16 +19,18 @@ class Login extends React.Component {
 			method: 'POST',
 			body: JSON.stringify({ id: id, password: password }),
 			redirect: 'follow'
-		}).then(result => result.json()).then(response => {
-
-			if (response.status == 200) {
-				console.log("sucesss");
-				window.location.href = 'www.google.com';
-			} else {
-				console.log("bye");
-				alert(response.message);
-			}
 		});
+		//.then(result => result.json())
+		//	.then(response => {
+		console.log(response);
+		if (response.status == 200) {
+			console.log("sucesss");
+			window.location.replace('/home/index.html');
+		} else {
+			alert(response.message);
+		}
+
+		//})
 
 		//window.location.href("http://localhost:2718/home/home_page.html")
 		//console.log(response)

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 
 function login(req, res)
 {
+  console.log("Here")
 	const id = req.body.id;
   const password = req.body.password;
 

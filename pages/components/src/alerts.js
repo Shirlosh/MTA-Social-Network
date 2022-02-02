@@ -16,5 +16,3 @@ class MyAlert extends React.Component {
             </div>
 	}
 }
-
-export default MyAlert

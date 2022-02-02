@@ -46,5 +46,3 @@ class NavBar extends React.Component {
         </div>
 	}
 }
-
-customElements.define('NavBar', NavBar);

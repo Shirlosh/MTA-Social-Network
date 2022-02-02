@@ -1,3 +1,11 @@
+//import React from 'react';
+
+import {NavBar} from '../../components/js/navbar'
+import {MyAlert} from '../../components/js/alerts'
+import {MySubmitButton} from '../../components/js/buttons'
+import {MyButton} from '../../components/js/buttons'
+//NavBar = require('../../components/js/navbar');
+
 
 const max_num_of_messages = 20
 
@@ -146,93 +154,95 @@ class MessagesPage extends React.Component
 			   </div>
 	}
 }
-class MyAlert extends React.Component {
-	constructor(props) {
-	  super(props);
-	}
+
+
+// class MyAlert extends React.Component { 
+// 	constructor(props) {
+// 	  super(props);
+// 	}
   
-	render() {
-			return  <div>
-                {this.props.show? 
-                <div style={{fontSize: '1.5rem'}} class="alert alert-primary" role="alert">
+// 	render() {
+// 			return  <div>
+//                 {this.props.show? 
+//                 <div style={{fontSize: '1.5rem'}} class="alert alert-primary" role="alert">
                     
-                    {' '}{this.props.text}
-                </div>
-            : null}
+//                     {' '}{this.props.text}
+//                 </div>
+//             : null}
 
-            </div>
-	}
-}
+//             </div>
+// 	}
+// }
 
 
-class MyButton extends React.Component {
-	constructor(props) {
-	  super(props);
-	}
+// class MyButton extends React.Component {
+// 	constructor(props) {
+// 	  super(props);
+// 	}
   
-	render() {
-			return <div>
-                        <button onClick={this.props.onClick} type={this.props.type} className="btn btn-primary">{this.props.text}</button>
-                    </div>
-	}
-}
+// 	render() {
+// 			return <div>
+//                         <button onClick={this.props.onClick} type={this.props.type} className="btn btn-primary">{this.props.text}</button>
+//                     </div>
+// 	}
+// }
 
-class MySubmitButton extends React.Component {
-	constructor(props) {
-	  super(props);
-	}
+// class MySubmitButton extends React.Component {
+// 	constructor(props) {
+// 	  super(props);
+// 	}
   
-	render() {
-			return <div style={{textAlign: 'center'}}>
-                        <button type='submit' className="btn btn-primary">{this.props.text}</button>
-                    </div>
-	}
-}
+// 	render() {
+// 			return <div style={{textAlign: 'center'}}>
+//                         <button type='submit' className="btn btn-primary">{this.props.text}</button>
+//                     </div>
+// 	}
+// }
 
-class NavBar extends React.Component {
-	constructor(props) {
-	  super(props);
-	}
+// class NavBar extends React.Component {
+// 	constructor(props) {
+// 	  super(props);
+// 	}
 
-	async handle_logout(){
-		const response = await fetch('/logout',{
-			headers: {
-            	'Content-Type':'application/json',
-            	'Accept':'application/json'
-        	},
-			method:'POST',
-		})
-		console.log(response)
-		if(response.status == 200){
-			console.log("sucesss")
-			window.location.replace('/login/index.html');
-		}
-		else{
-			alert(response.message)
-		}
-	}
+// 	async handle_logout(){
+// 		const response = await fetch('/logout',{
+// 			headers: {
+//             	'Content-Type':'application/json',
+//             	'Accept':'application/json'
+//         	},
+// 			method:'POST',
+// 		})
+// 		console.log(response)
+// 		if(response.status == 200){
+// 			console.log("sucesss")
+// 			window.location.replace('/login/index.html');
+// 		}
+// 		else{
+// 			alert(response.message)
+// 		}
+// 	}
 
-	handle_home()
-	{
-		window.location.replace('/home/index.html');
-	}
-	handle_messages()
-	{
-		window.location.replace('/messages/index.html');
-	}
-	handle_about()
-	{
-		window.location.replace('/about/index.html');
-	}
+// 	handle_home()
+// 	{
+// 		window.location.replace('/home/index.html');
+// 	}
+// 	handle_messages()
+// 	{
+// 		window.location.replace('/messages/index.html');
+// 	}
+// 	handle_about()
+// 	{
+// 		window.location.replace('/about/index.html');
+// 	}
   
-	render() {
-			return <div style={{backgroundColor: '#F5F5F5', padding: '0.5rem'}}><div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
-            <button onClick={this.handle_home} type="button" class="btn btn-outline-dark">Home</button>
-            <button onClick={this.handle_messages} type="button" class="btn btn-outline-dark">Messages</button>
-            <button onClick={this.handle_logout} type="button" class="btn btn-outline-dark">Logout</button>
-            <button onClick={this.handle_about} type="button" class="btn btn-outline-dark">About</button>
-        </div>
-        </div>
-	}
-}
+// 	render() {
+// 			return <div style={{backgroundColor: '#F5F5F5', padding: '0.5rem'}}><div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
+//             <button onClick={this.handle_home} type="button" class="btn btn-outline-dark">Home</button>
+//             <button onClick={this.handle_messages} type="button" class="btn btn-outline-dark">Messages</button>
+//             <button onClick={this.handle_logout} type="button" class="btn btn-outline-dark">Logout</button>
+//             <button onClick={this.handle_about} type="button" class="btn btn-outline-dark">About</button>
+//         </div>
+//         </div>
+// 	}
+// }
   

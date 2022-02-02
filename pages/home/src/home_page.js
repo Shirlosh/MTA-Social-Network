@@ -1,9 +1,3 @@
-//TODO:
-// order posts newest to oldest, first posts is my posts
-// Admin page - distinguish between user and admin somehow (admin can do more things)
-// indicator for messages
-// id user, delete your posts
-
 
 const max_num_of_posts = 20
 

@@ -17,5 +17,3 @@ class MyAlert extends React.Component {
     );
   }
 }
-
-//export default MyAlert

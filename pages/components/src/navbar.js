@@ -1,4 +1,3 @@
-import React from 'react';
 
 class NavBar extends React.Component {
 	constructor(props) {
@@ -35,6 +34,10 @@ class NavBar extends React.Component {
 	{
 		window.location.replace('/about/index.html');
 	}
+	handle_admin()
+	{
+		window.location.replace('/admin/index.html');
+	}
   
 	render() {
 			return <div style={{backgroundColor: '#F5F5F5', padding: '0.5rem'}}><div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
@@ -42,6 +45,7 @@ class NavBar extends React.Component {
             <button onClick={this.handle_messages} type="button" class="btn btn-outline-dark">Messages</button>
             <button onClick={this.handle_logout} type="button" class="btn btn-outline-dark">Logout</button>
             <button onClick={this.handle_about} type="button" class="btn btn-outline-dark">About</button>
+			<button onClick={this.handle_admin} type="button" class="btn btn-outline-dark">Admin</button>
         </div>
         </div>
 	}

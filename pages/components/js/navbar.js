@@ -1,4 +1,3 @@
-
 class NavBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -30,6 +29,9 @@ class NavBar extends React.Component {
 	handle_about() {
 		window.location.replace('/about/index.html');
 	}
+	handle_admin() {
+		window.location.replace('/admin/index.html');
+	}
 
 	render() {
 		return React.createElement(
@@ -57,10 +59,13 @@ class NavBar extends React.Component {
 					'button',
 					{ onClick: this.handle_about, type: 'button', 'class': 'btn btn-outline-dark' },
 					'About'
+				),
+				React.createElement(
+					'button',
+					{ onClick: this.handle_admin, type: 'button', 'class': 'btn btn-outline-dark' },
+					'Admin'
 				)
 			)
 		);
 	}
 }
-
-//export default NavBar

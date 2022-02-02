@@ -21,15 +21,11 @@ class Message extends React.Component {
             React.createElement(
                 'span',
                 null,
-                'message id ',
+                'id ',
                 message.id,
-                ': ',
-                React.createElement(
-                    'strong',
-                    null,
-                    message.message
-                ),
-                ' | '
+                ', status',
+                message.status,
+                ' '
             ),
             React.createElement(
                 'span',
@@ -86,7 +82,7 @@ class MessagesPage extends React.Component {
     }
 
     async fetch_messages() {
-        const response = await fetch('/messages');
+        const response = await fetch('/users');
         if (response.status != 200) throw new Error('Error while fetching messages');
         const data = await response.json();
         await console.log("messages:", data);

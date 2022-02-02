@@ -12,7 +12,7 @@ class Message extends React.Component
 
 		return 	<div style={{fontSize: '1.5rem'}} className='UserItem'  data-id={message.id}>
 					<span><i onClick={this.handle_click} className='fa fa-times transparent'></i></span>                   
-                    {' '}<span>message id {message.id}: <strong>{message.message}</strong> | </span>
+                    {' '}<span>id {message.id}, status{message.status} </span>
                     <span style={{fontSize: '1rem'}}>{message.sent_date}</span>
 				</div>
 	}
@@ -71,7 +71,7 @@ class MessagesPage extends React.Component
 
 	async fetch_messages()
 	{
-		const response = await fetch('/messages');
+		const response = await fetch('/users');
 		if ( response.status != 200 )
 		  throw new Error( 'Error while fetching messages');
 		const data = await response.json();
@@ -138,7 +138,7 @@ class MessagesPage extends React.Component
                         <hr/>
                         
                         <MyButton onClick={() => this.get_messages()} text={'Check for new message'}/>
-                        <h1>Messages</h1>
+                        <h1>Users</h1>
                         <Messages 
                             messages={this.state.messages}
                         />

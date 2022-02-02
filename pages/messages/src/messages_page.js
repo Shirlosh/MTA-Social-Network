@@ -1,11 +1,3 @@
-//import React from 'react';
-
-import {NavBar} from '../../components/js/navbar'
-import {MyAlert} from '../../components/js/alerts'
-import {MySubmitButton} from '../../components/js/buttons'
-import {MyButton} from '../../components/js/buttons'
-//NavBar = require('../../components/js/navbar');
-
 
 const max_num_of_messages = 20
 

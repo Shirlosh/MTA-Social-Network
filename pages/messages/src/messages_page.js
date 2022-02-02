@@ -1,39 +1,24 @@
-//TODO:
-// order posts newest to oldest, first posts is my posts
-// Admin page - distinguish between user and admin somehow (admin can do more things)
-// indicator for messages
-// id user, delete your posts
 
+const max_num_of_messages = 20
 
-const max_num_of_posts = 20
-
-class Post extends React.Component 
+class Message extends React.Component 
 {
 	constructor(props) {
 		super(props);
-		this.handle_click = this.handle_click.bind( this );
-	}
-
-	handle_click()
-	{
-		if ( this.props.handle_delete )
-		  this.props.handle_delete( this.props.post.id );
 	}
 
 	render() {
-        const post = this.props.post
+        const message = this.props.message
 
-		return 	<div style={{fontSize: '1.5rem'}} className='UserItem'  data-id={post.id}>
-					<span><i onClick={this.handle_click} className='fa fa-times transparent'></i></span>
-					
-                    <button style={{fontSize: '0.75rem'}} onClick={this.handle_click} type="button" class="btn-close" aria-label="Close"></button>
-                    {' '}<span>From {post.creator_id}: <strong>{post.text}</strong> | </span>
-                    <span style={{fontSize: '1rem'}}>{post.creation_date}</span>
+		return 	<div style={{fontSize: '1.5rem'}} className='UserItem'  data-id={message.id}>
+					<span><i onClick={this.handle_click} className='fa fa-times transparent'></i></span>                   
+                    {' '}<span>message id {message.id}: <strong>{message.message}</strong> | </span>
+                    <span style={{fontSize: '1rem'}}>{message.sent_date}</span>
 				</div>
 	}
 }
 
-class Posts extends React.Component
+class Messages extends React.Component
 {
     constructor(props){
         super(props);
@@ -41,11 +26,10 @@ class Posts extends React.Component
 
     render() {
         return <div>
-                    {this.props.posts.map( (post,index) => 
-                    { if(max_num_of_posts >= index + 1)
-                        return <Post
-                                    handle_delete={this.props.handle_delete}
-                                    post={post}  
+                    {this.props.messages.map( (message,index) => 
+                    { if(max_num_of_messages >= index + 1)
+                        return <Message
+                                    message ={message}  
                                     key={index}
                                 />  
                     })}
@@ -54,16 +38,15 @@ class Posts extends React.Component
 }
 
 
-class HomePage extends React.Component 
+class MessagesPage extends React.Component 
 {
 	constructor(props) 
 	{
 		super(props);
-		this.handle_delete = this.handle_delete.bind( this );
-		this.handle_new_post = this.handle_new_post.bind(this)
+		this.handle_new_post = this.handle_new_message.bind(this)
 		this.get_posts = this.get_messages.bind(this)
 		this.state = {
-            posts: [],
+            messages: [],
             new_posts_indicator: false,
             new_messages_indicator: false
         }
@@ -73,8 +56,8 @@ class HomePage extends React.Component
 	{
         setInterval(() => {
             const messages = this.fetch_messages();
-            if(this.state.posts.length < messages.length)
-                this.setState({new_posts_indicator: true}) //set alert
+            if(this.state.messages.length < messages.length)
+                this.setState({new_messages_indicator: true}) //set alert
             console.log("messages check")
         }, 30000)
         this.get_messages()
@@ -96,37 +79,24 @@ class HomePage extends React.Component
 		return data;
 	}
 
-	async handle_delete( id )
+
+	update_messages( messages )
 	{
-		const response = await fetch('/post/' + id , {method:'DELETE'});
-		if ( response.status == 200 )
-		{
-            this.get_messages();
-		}
-		else 
-		{
-		  const err = await response.text();
-		  alert( err );
-		}
+		this.setState( {messages : messages} );
 	}
 
-
-	update_messages( posts )
-	{
-		this.setState( {posts : posts} );
-	}
-
-    async handle_new_post(event)
+    async handle_new_message(event)
     {
         event.preventDefault()
-        const post_text = event.target[0].value
-        
-        const response = await fetch('/post',{
+		const receiver_id = event.target[0].value
+        const post_text = event.target[1].value
+
+        const response = await fetch('/send_message/' + receiver_id ,{
 			headers: {
             	'Content-Type':'application/json',
         	},
 			method:'POST',
-			body: JSON.stringify({post:post_text }),
+			body: JSON.stringify({message:post_text }),
 		});
         if ( response.status == 200 )
 		{
@@ -154,20 +124,23 @@ class HomePage extends React.Component
                     />
                     <br/>
                     <div className='container'>
-                        <form onSubmit={this.handle_new_post}>
+                        <form onSubmit={this.handle_new_message}>
                             <div class="form-group">
+							
+  								<label for="exampleFormControlInput1" class="form-label">To: </label>
+  								<input type="number" class="form-control" id="exampleFormControlInput1" placeholder="user id"/>
+
                                 <label for="exampleFormControlTextarea1">Send new message:</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                <MySubmitButton text={'message sent'}/>
+                                <MySubmitButton text={'send'}/>
                             </div>
                         </form>
                         <hr/>
                         
                         <MyButton onClick={() => this.get_messages()} text={'Check for new message'}/>
-                        <h1>Posts</h1>
-                        <Posts 
-                            posts={this.state.posts}
-                            handle_delete={this.handle_delete}  
+                        <h1>Messages</h1>
+                        <Messages 
+                            messages={this.state.messages}
                         />
                     </div>
 			   </div>
@@ -182,7 +155,7 @@ class MyAlert extends React.Component {
 			return  <div>
                 {this.props.show? 
                 <div style={{fontSize: '1.5rem'}} class="alert alert-primary" role="alert">
-                    <button onClick={this.props.onHide} style={{fontSize: '1rem'}} type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    
                     {' '}{this.props.text}
                 </div>
             : null}

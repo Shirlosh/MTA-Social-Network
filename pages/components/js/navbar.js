@@ -1,3 +1,4 @@
+
 class NavBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -36,7 +37,7 @@ class NavBar extends React.Component {
 	render() {
 		return React.createElement(
 			'div',
-			{ style: { backgroundColor: '#F5F5F5', padding: '0.5rem' } },
+			{ style: { backgroundColor: '#F5F5F5', padding: '0.5rem', textAlign: 'center' } },
 			React.createElement(
 				'div',
 				{ 'class': 'btn-group btn-group-lg', role: 'group', 'aria-label': 'Basic outlined example' },

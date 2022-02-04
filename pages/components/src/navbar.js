@@ -40,7 +40,7 @@ class NavBar extends React.Component {
 	}
   
 	render() {
-			return <div style={{backgroundColor: '#F5F5F5', padding: '0.5rem'}}><div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
+			return <div style={{backgroundColor: '#F5F5F5', padding: '0.5rem',textAlign: 'center'}}><div class="btn-group btn-group-lg" role="group" aria-label="Basic outlined example">
             <button onClick={this.handle_home} type="button" class="btn btn-outline-dark">Home</button>
             <button onClick={this.handle_messages} type="button" class="btn btn-outline-dark">Messages</button>
             <button onClick={this.handle_logout} type="button" class="btn btn-outline-dark">Logout</button>

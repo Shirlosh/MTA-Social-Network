@@ -1,73 +1,13 @@
 
 const max_num_of_messages = 20;
 
-class Message extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const message = this.props.message;
-
-        return React.createElement(
-            'div',
-            { style: { fontSize: '1.5rem' }, className: 'UserItem', 'data-id': message.id },
-            React.createElement(
-                'span',
-                null,
-                React.createElement('i', { onClick: this.handle_click, className: 'fa fa-times transparent' })
-            ),
-            ' ',
-            React.createElement(
-                'span',
-                null,
-                'id ',
-                message.id,
-                ': ',
-                React.createElement(
-                    'strong',
-                    null,
-                    message.message
-                ),
-                ' ',
-                message.name,
-                ' '
-            ),
-            React.createElement(
-                'span',
-                { style: { fontSize: '1rem' } },
-                message.sent_date
-            )
-        );
-    }
-}
-
-class Messages extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return React.createElement(
-            'div',
-            null,
-            this.props.messages.map((message, index) => {
-                if (max_num_of_messages >= index + 1) return React.createElement(Message, {
-                    message: message,
-                    key: index
-                });
-            })
-        );
-    }
-}
-
-class MessagesPage extends React.Component {
+class AdminPage extends React.Component {
     constructor(props) {
         super(props);
         this.handle_new_post = this.handle_new_message.bind(this);
-        this.get_posts = this.get_messages.bind(this);
+        this.get_posts = this.get_users.bind(this);
         this.state = {
-            messages: [],
+            users: [],
             new_posts_indicator: false,
             new_messages_indicator: false
         };
@@ -75,19 +15,20 @@ class MessagesPage extends React.Component {
 
     async componentDidMount() {
         setInterval(() => {
-            const messages = this.fetch_messages();
-            if (this.state.messages.length < messages.length) this.setState({ new_messages_indicator: true }); //set alert
-            console.log("messages check");
+            const users = this.fetch_users();
+            // if(this.state.users.length < users.length)
+            //     this.setState({new_messages_indicator: true}) //set alert
+            // console.log("messages check")
         }, 30000);
-        this.get_messages();
+        this.get_users();
     }
 
-    async get_messages() {
-        const messages = await this.fetch_messages();
-        this.update_messages(messages);
+    async get_users() {
+        const users = await this.fetch_users();
+        this.update_users(users);
     }
 
-    async fetch_messages() {
+    async fetch_users() {
         const response = await fetch('/users');
         if (response.status != 200) throw new Error('Error while fetching messages');
         const data = await response.json();
@@ -95,24 +36,23 @@ class MessagesPage extends React.Component {
         return data;
     }
 
-    update_messages(messages) {
-        this.setState({ messages: messages });
+    update_users(users) {
+        this.setState({ users: users });
     }
 
     async handle_new_message(event) {
         event.preventDefault();
-        const receiver_id = event.target[0].value;
-        const post_text = event.target[1].value;
+        const message_text = event.target[0].value;
 
-        const response = await fetch('/send_message/' + receiver_id, {
+        const response = await fetch('/message_users', {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({ message: post_text })
+            body: JSON.stringify({ message: message_text })
         });
         if (response.status == 200) {
-            this.get_messages();
+            this.get_users();
         } else {
             const err = await response.text();
             alert(err);
@@ -139,6 +79,15 @@ class MessagesPage extends React.Component {
                 'div',
                 { className: 'container' },
                 React.createElement(
+                    'h1',
+                    null,
+                    'Users'
+                ),
+                React.createElement(Users, { users: this.state.users }),
+                React.createElement(MyButton, { onClick: () => this.get_users(), text: 'update users list' }),
+                React.createElement('br', null),
+                React.createElement('br', null),
+                React.createElement(
                     'form',
                     { onSubmit: this.handle_new_message },
                     React.createElement(
@@ -146,30 +95,122 @@ class MessagesPage extends React.Component {
                         { 'class': 'form-group' },
                         React.createElement(
                             'label',
-                            { 'for': 'exampleFormControlInput1', 'class': 'form-label' },
-                            'To: '
-                        ),
-                        React.createElement('input', { type: 'number', 'class': 'form-control', id: 'exampleFormControlInput1', placeholder: 'user id' }),
-                        React.createElement(
-                            'label',
                             { 'for': 'exampleFormControlTextarea1' },
-                            'Send new message:'
+                            'Send message to all:'
                         ),
                         React.createElement('textarea', { 'class': 'form-control', id: 'exampleFormControlTextarea1', rows: '3' }),
                         React.createElement(MySubmitButton, { text: 'send' })
                     )
                 ),
-                React.createElement('hr', null),
-                React.createElement(MyButton, { onClick: () => this.get_messages(), text: 'Check for new message' }),
-                React.createElement(
-                    'h1',
-                    null,
-                    'Messages'
-                ),
-                React.createElement(Messages, {
-                    messages: this.state.messages
-                })
+                React.createElement('hr', null)
             )
         );
     }
+}
+
+class User extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const user = this.props.user;
+
+        return React.createElement(
+            'div',
+            { style: { fontSize: '1.5rem' }, className: 'UserItem', 'data-id': user.id },
+            React.createElement(
+                'span',
+                null,
+                React.createElement('i', { onClick: this.handle_click, className: 'fa fa-times transparent' })
+            ),
+            ' ',
+            React.createElement(
+                'span',
+                null,
+                'id ',
+                user.id,
+                ': ',
+                React.createElement(
+                    'strong',
+                    null,
+                    user.message
+                ),
+                ' ',
+                user.name,
+                ' ',
+                React.createElement(Status, { user: user }),
+                ' '
+            ),
+            React.createElement(
+                'span',
+                { style: { fontSize: '1rem' } },
+                user.sent_date
+            )
+        );
+    }
+}
+
+class Users extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return React.createElement(
+            'div',
+            null,
+            this.props.users.map((user, index) => {
+                if (user.id != 1) return React.createElement(User, {
+                    user: user,
+                    key: index
+                });
+            })
+        );
+    }
+}
+
+class Status extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        let status = this.props.user.status;
+        const x = 1;
+    }
+
+    handleChange(event) {
+        //this.setState({ value: event.target.value });
+        let status = event.target.value;
+        let x = 1;
+    }
+
+    render() {
+        return React.createElement(
+            'select',
+            { id: 'status', onChange: this.handleChange, name: this.props.user.status },
+            React.createElement(
+                'option',
+                { value: 'Created', disabled: true },
+                'Created'
+            ),
+            React.createElement(
+                'option',
+                { value: 'Active' },
+                'Active'
+            ),
+            React.createElement(
+                'option',
+                { value: 'Suspended' },
+                'Suspended'
+            ),
+            React.createElement(
+                'option',
+                { value: 'Deleted' },
+                'Deleted'
+            )
+        );
+    }
+
 }

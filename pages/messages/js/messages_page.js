@@ -100,14 +100,14 @@ class MessagesPage extends React.Component {
     async handle_new_message(event) {
         event.preventDefault();
         const receiver_id = event.target[0].value;
-        const post_text = event.target[1].value;
+        const message_text = event.target[1].value;
 
         const response = await fetch('/send_message/' + receiver_id, {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({ message: post_text })
+            body: JSON.stringify({ message: message_text })
         });
         if (response.status == 200) {
             this.get_messages();

@@ -1,52 +1,16 @@
 
 const max_num_of_messages = 20
 
-class Message extends React.Component 
-{
-	constructor(props) {
-		super(props);
-	}
 
-	render() {
-        const message = this.props.message
-
-		return 	<div style={{fontSize: '1.5rem'}} className='UserItem'  data-id={message.id}>
-					<span><i onClick={this.handle_click} className='fa fa-times transparent'></i></span>                   
-                    {' '}<span>id {message.id}: <strong>{message.message}</strong> {message.name} </span>
-                    <span style={{fontSize: '1rem'}}>{message.sent_date}</span>
-				</div>
-	}
-}
-
-class Messages extends React.Component
-{
-    constructor(props){
-        super(props);
-    }
-
-    render() {
-        return <div>
-                    {this.props.messages.map( (message,index) => 
-                    { if(max_num_of_messages >= index + 1)
-                        return <Message
-                                    message ={message}  
-                                    key={index}
-                                />  
-                    })}
-                </div>
-         }
-}
-
-
-class MessagesPage extends React.Component 
+class AdminPage extends React.Component 
 {
 	constructor(props) 
 	{
 		super(props);
 		this.handle_new_post = this.handle_new_message.bind(this)
-		this.get_posts = this.get_messages.bind(this)
+		this.get_posts = this.get_users.bind(this)
 		this.state = {
-            messages: [],
+            users: [],
             new_posts_indicator: false,
             new_messages_indicator: false
         }
@@ -55,21 +19,21 @@ class MessagesPage extends React.Component
 	async componentDidMount() 
 	{
         setInterval(() => {
-            const messages = this.fetch_messages();
-            if(this.state.messages.length < messages.length)
-                this.setState({new_messages_indicator: true}) //set alert
-            console.log("messages check")
+            const users = this.fetch_users();
+            // if(this.state.users.length < users.length)
+            //     this.setState({new_messages_indicator: true}) //set alert
+            // console.log("messages check")
         }, 30000)
-        this.get_messages()
+        this.get_users()
 	}
 
-    async get_messages()
+    async get_users()
     {
-        const messages = await this.fetch_messages();
-		this.update_messages(messages);
+        const users = await this.fetch_users();
+		this.update_users(users);
     }
 
-	async fetch_messages()
+	async fetch_users()
 	{
 		const response = await fetch('/users');
 		if ( response.status != 200 )
@@ -80,27 +44,26 @@ class MessagesPage extends React.Component
 	}
 
 
-	update_messages( messages )
+	update_users( users )
 	{
-		this.setState( {messages : messages} );
+		this.setState( {users : users} );
 	}
 
     async handle_new_message(event)
     {
         event.preventDefault()
-		const receiver_id = event.target[0].value
-        const post_text = event.target[1].value
+        const message_text = event.target[0].value
 
-        const response = await fetch('/send_message/' + receiver_id ,{
+        const response = await fetch('/message_users',{
 			headers: {
             	'Content-Type':'application/json',
         	},
 			method:'POST',
-			body: JSON.stringify({message:post_text }),
+			body: JSON.stringify({message:message_text }),
 		});
         if ( response.status == 200 )
 		{
-            this.get_messages();
+            this.get_users();
 		}
 		else 
 		{
@@ -124,25 +87,85 @@ class MessagesPage extends React.Component
                     />
                     <br/>
                     <div className='container'>
+                    <h1>Users</h1>
+                    <Users users={this.state.users}/>
+                    <MyButton onClick={() => this.get_users()} text={'update users list'}/>
+                    <br/><br/>
                         <form onSubmit={this.handle_new_message}>
                             <div class="form-group">
-							
-  								<label for="exampleFormControlInput1" class="form-label">To: </label>
-  								<input type="number" class="form-control" id="exampleFormControlInput1" placeholder="user id"/>
-
-                                <label for="exampleFormControlTextarea1">Send new message:</label>
+                                <label for="exampleFormControlTextarea1">Send message to all:</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                 <MySubmitButton text={'send'}/>
                             </div>
                         </form>
                         <hr/>
-                        
-                        <MyButton onClick={() => this.get_messages()} text={'Check for new message'}/>
-                        <h1>Messages</h1>
-                        <Messages 
-                            messages={this.state.messages}
-                        />
                     </div>
 			   </div>
 	}
+}
+
+class User extends React.Component 
+{
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+        const user = this.props.user
+
+		return 	<div style={{fontSize: '1.5rem'}} className='UserItem'  data-id={user.id}>
+					<span><i onClick={this.handle_click} className='fa fa-times transparent'></i></span>                   
+                    {' '}<span>id {user.id}: <strong>{user.message}</strong> {user.name} <Status user = {user} /> </span>
+                    <span style={{fontSize: '1rem'}}>{user.sent_date}</span>
+				</div>
+	}
+}
+
+class Users extends React.Component
+{
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        return <div>
+                    {this.props.users.map( (user,index) => 
+                    { if(user.id != 1)
+                        return <User
+                                    user ={user}  
+                                    key={index}
+                                />  
+                    })}
+                </div>
+         }
+}
+
+
+class Status extends React.Component
+{
+    constructor(props){
+        super(props);
+    }
+
+    componentDidMount() 
+	{
+        let status = this.props.user.status
+        const x = 1 
+	} 
+
+    handleChange(event) {
+        //this.setState({ value: event.target.value });
+        let status = event.target.value
+        let x = 1 
+    }
+
+    render() {
+        return <select id="status" onChange={this.handleChange} name={this.props.user.status}>
+                        <option value="Created" disabled>Created</option>
+                        <option value="Active">Active</option>
+                        <option value="Suspended">Suspended</option>
+                        <option value="Deleted">Deleted</option>
+                </select>
+    }
+    
 }

@@ -2,6 +2,17 @@
 class NavBar extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			indicator: false
+		};
+	}
+
+	async componentDidMount() {
+		const response = await fetch('/is_admin');
+
+		if (response.status != 200) throw new Error('Error in user token');
+
+		this.state.indicator = await response.json();
 	}
 
 	async handle_logout() {
@@ -63,7 +74,8 @@ class NavBar extends React.Component {
 				),
 				React.createElement(
 					'button',
-					{ onClick: this.handle_admin, type: 'button', 'class': 'btn btn-outline-dark' },
+					{ onClick: this.handle_admin, type: 'button', 'class': 'btn btn-outline-dark',
+						style: this.state.indicator ? {} : { display: 'none' } },
 					'Admin'
 				)
 			)

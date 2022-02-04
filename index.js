@@ -60,6 +60,7 @@ const router = express.Router();
 router.get('/version', (req, res) => {get_version(req, res)})
 router.post('/login', (req, res) => {LoginHandling.login(req,res)}) 
 router.post('/logout', (req, res) => {LoginHandling.token_checker(req, res, LoginHandling.logout)})
+router.get('/is_admin', (req, res) => {LoginHandling.token_checker(req, res, LoginHandling.is_admin)})
 
 router.get('/users', (req, res) => {LoginHandling.token_checker(req,res, UsersHandling.list_users)}) 
 router.put('/approve_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.approve_user)}) 

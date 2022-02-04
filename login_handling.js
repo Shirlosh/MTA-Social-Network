@@ -70,7 +70,6 @@ function create_token(res,id)
   res.cookie('auth',token, { httpOnly : false } );
 }
 
-
 function token_checker(req, res, next)
 {
   let token = req.headers.cookie
@@ -99,5 +98,10 @@ function token_checker(req, res, next)
 }
 
 
+function is_admin(req, res)
+{
+    res.send(JSON.stringify(req.user_data['id'] == '1'))
+}
 
-module.exports = {login,token_checker,logout}
+
+module.exports = {login,token_checker,logout, is_admin}

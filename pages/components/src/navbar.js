@@ -2,6 +2,20 @@
 class NavBar extends React.Component {
 	constructor(props) {
 	  super(props);
+	  this.state = {
+		indicator: false
+	}
+	}
+
+	async componentDidMount()
+	{
+		const response = await fetch('/is_admin');
+		
+		if ( response.status != 200 )
+		  throw new Error( 'Error in user token');
+
+		
+		this.state.indicator = await response.json();
 	}
 
 	async handle_logout(){
@@ -45,7 +59,8 @@ class NavBar extends React.Component {
             <button onClick={this.handle_messages} type="button" class="btn btn-outline-dark">Messages</button>
             <button onClick={this.handle_logout} type="button" class="btn btn-outline-dark">Logout</button>
             <button onClick={this.handle_about} type="button" class="btn btn-outline-dark">About</button>
-			<button onClick={this.handle_admin} type="button" class="btn btn-outline-dark">Admin</button>
+			<button onClick={this.handle_admin} type="button" class="btn btn-outline-dark" 
+					style={this.state.indicator ? {} : { display: 'none' } } >Admin</button>
         </div>
         </div>
 	}

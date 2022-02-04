@@ -1,4 +1,3 @@
-
 const max_num_of_messages = 20
 
 
@@ -19,11 +18,11 @@ class AdminPage extends React.Component
 	async componentDidMount() 
 	{
         setInterval(() => {
-            const users = this.fetch_users();
+            this.get_users();
             // if(this.state.users.length < users.length)
             //     this.setState({new_messages_indicator: true}) //set alert
             // console.log("messages check")
-        }, 30000)
+        }, 1000)
         this.get_users()
 	}
 
@@ -145,26 +144,45 @@ class Status extends React.Component
 {
     constructor(props){
         super(props);
+        this.state = { value: props.user.status }
+        this.handle_change = this.handle_change.bind( this );
     }
 
-    componentDidMount() 
-	{
-        let status = this.props.user.status
-        const x = 1 
-	} 
+    async handle_change(event) {
 
-    handleChange(event) {
-        //this.setState({ value: event.target.value });
-        let status = event.target.value
-        let x = 1 
+        let response
+        let id = this.props.user.id
+
+        if (event.target.value == "Active")
+        {
+            if(this.props.user.status == "Created")
+                response = await fetch('/approve_user/' + id , {method:'PUT'});
+            else if(this.props.user.status == "Suspended")
+                response = await fetch('/restore_user/' + id , {method:'PUT'})
+        }
+        
+        else if (event.target.value == "Suspended")
+            response = await fetch('/suspend_user/' + id , {method:'PUT'})
+
+        else if(event.target.value == "Deleted")
+            response = await fetch('/user/' + id , {method:'DELETE'});
+
+        if ( response.status == 200 )
+		{
+		}
+		else 
+		{
+		  const err = await response.text();
+		  alert( err );
+		}
     }
 
     render() {
-        return <select id="status" onChange={this.handleChange} name={this.props.user.status}>
+        return <select id="status" onChange={this.handle_change} value={this.props.user.status}>
                         <option value="Created" disabled>Created</option>
                         <option value="Active">Active</option>
                         <option value="Suspended">Suspended</option>
-                        <option value="Deleted">Deleted</option>
+                        <option value="Deleted">Delete</option>
                 </select>
     }
     

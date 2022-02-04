@@ -1,0 +1,52 @@
+body 
+{
+	font-family: arial;
+	color: darkgray;
+}
+
+h1
+{
+	text-align: center;
+}
+
+button
+{
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.transparent
+{
+	opacity: 0
+}
+
+#sample-container
+{
+	text-align: center;
+	padding: 10rem;
+	font-size: 1rem;
+}
+
+.UserItem
+{
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.UserItem span
+{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.UserItem .fa:hover
+{
+	color: red;
+	opacity: 1;
+	cursor: pointer;
+}

@@ -1,6 +1,5 @@
-//import home_page from "../../home/src/home_page";
 
-class Login extends React.Component 
+class SignupPage extends React.Component 
 {
 	constructor(props) 
 	{
@@ -9,17 +8,18 @@ class Login extends React.Component
 	}
 
 	async handleSubmit(event) {
-		const id = event.target[0].value
-		const password = event.target[1].value
+		const name = event.target[0].value
+		const email = event.target[1].value
+		const password = event.target[2].value
 		console.log("submit")
 		
-		const response = await fetch('/login',{
+		const response = await fetch('/user',{
 			headers: {
             	'Content-Type':'application/json',
             	'Accept':'application/json'
         	},
 			method:'POST',
-			body: JSON.stringify({id:id,password:password }),
+			body: JSON.stringify({name:name,email:email,password:password }),
 			redirect: 'follow'
 		})
 		//.then(result => result.json())
@@ -27,7 +27,7 @@ class Login extends React.Component
 			console.log(response)
 			if(response.status == 200){
 				console.log("sucesss")
-				window.location.replace('/home/index.html');
+				window.location.replace('/login/index.html');
 			}
 			else{
 				alert(response.message)
@@ -54,16 +54,20 @@ class Login extends React.Component
 	render() {
 		return <div><form onSubmit={e => this.handleSubmit(e)}>
 		<div class="mb-3">
-		  <label for="exampleInputEmail1" class="form-label">ID</label>
-		  <input type="number" class="form-control" id="exampleInputEmail1"/>
+		  <label for="exampleInputName1" class="form-label">Name</label>
+		  <input type="text" class="form-control" id="exampleInputName1"/>
+		</div>
+
+		<div class="mb-3">
+		  <label for="exampleInputEmail1" class="form-label">Email</label>
+		  <input type="email" class="form-control" id="exampleInputEmail1"/>
 		  
 		</div>
 		<div class="mb-3">
 		  <label for="exampleInputPassword1" class="form-label">Password</label>
 		  <input type="password" class="form-control" id="exampleInputPassword1"/>
 		</div>
-		<div> don't have user?  <a href="/signup/index.html">sign up</a></div>
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="btn btn-primary">Register now</button>
 	  </form></div>
 	}
 }

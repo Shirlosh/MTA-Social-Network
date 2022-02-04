@@ -23,8 +23,14 @@ class Message extends React.Component {
                 null,
                 'id ',
                 message.id,
-                ', status',
-                message.status,
+                ': ',
+                React.createElement(
+                    'strong',
+                    null,
+                    message.message
+                ),
+                ' ',
+                message.name,
                 ' '
             ),
             React.createElement(

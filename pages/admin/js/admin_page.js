@@ -13,8 +13,10 @@ class AdminPage extends React.Component {
     }
 
     async componentDidMount() {
-        if (gate() == false) window.location.replace('/home/index.html');
-
+        if (gate() == false) {
+            alert("invalid access you are about to redirect");
+            window.location.replace('/home/index.html');
+        }
         setInterval(() => {
             this.get_users();
             // if(this.state.users.length < users.length)

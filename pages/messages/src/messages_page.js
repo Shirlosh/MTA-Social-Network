@@ -54,6 +54,7 @@ class MessagesPage extends React.Component
 
 	async componentDidMount() 
 	{
+        gate()
         setInterval(() => {
             const messages = this.fetch_messages();
             if(this.state.messages.length < messages.length)

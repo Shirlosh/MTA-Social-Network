@@ -13,9 +13,9 @@ class NavBar extends React.Component {
 		
 		if ( response.status != 200 )
 		  throw new Error( 'Error in user token');
-
 		
-		this.state.indicator = await response.json();
+		let res = await response.json();
+		this.setState({indicator : res})
 	}
 
 	async handle_logout(){

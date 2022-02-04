@@ -1,9 +1,3 @@
-//TODO:
-// order posts newest to oldest, first posts is my posts
-// Admin page - distinguish between user and admin somehow (admin can do more things)
-// indicator for messages
-// id user, delete your posts
-
 
 const max_num_of_posts = 20;
 
@@ -86,6 +80,7 @@ class HomePage extends React.Component {
     }
 
     async componentDidMount() {
+        gate();
         setInterval(() => {
             const posts = this.fetch_posts();
             if (this.state.posts.length < posts.length) this.setState({ new_posts_indicator: true }); //set alert

@@ -17,6 +17,9 @@ class AdminPage extends React.Component
 
 	async componentDidMount() 
 	{
+        if (gate() == false)
+            window.location.replace('/home/index.html');
+
         setInterval(() => {
             this.get_users();
             // if(this.state.users.length < users.length)

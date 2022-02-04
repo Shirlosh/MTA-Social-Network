@@ -65,6 +65,7 @@ class HomePage extends React.Component
 
 	async componentDidMount() 
 	{
+        gate()
         setInterval(() => {
             const posts = this.fetch_posts();
             if(this.state.posts.length < posts.length)

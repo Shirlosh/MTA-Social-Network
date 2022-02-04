@@ -4,7 +4,14 @@ const {check_active_user} = require('../users/users_handling')
 
 function list_posts(req, res) //view all posts
 {
-    res.send(JSON.stringify(global_scope.posts_list.get_list()))
+    let id = req.user_data['id']
+    let array = global_scope.posts_list.get_list().slice().reverse()
+
+    let idx = array.findIndex(item => item.creator_id === id)
+    if (idx >= 0)
+        array.unshift(array.splice(idx, 1)[0])
+        
+    res.send(JSON.stringify(array))
 }
 
 function publish_post(req, res)

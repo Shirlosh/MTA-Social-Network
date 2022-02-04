@@ -5,7 +5,9 @@ function messages(req, res) //get user's messages
 {
     const user_messages = global_scope.messages_list.get_messages(parseInt(req.user_data['id']))
     res.status(StatusCodes.OK)
-    res.send(JSON.stringify(user_messages))
+    
+    let array = user_messages.slice().reverse()
+    res.send(JSON.stringify(array))
 }
 
 function send_message(req, res) //user or admin to user

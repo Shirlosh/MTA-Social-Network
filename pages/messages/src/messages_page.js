@@ -67,7 +67,7 @@ class MessagesPage extends React.Component
     async get_messages()
     {
         const messages = await this.fetch_messages();
-		this.update_messages(messages.reverse());
+		this.update_messages(messages);
     }
 
 	async fetch_messages()

@@ -78,8 +78,7 @@ class HomePage extends React.Component
     async get_posts()
     {
         const posts = await this.fetch_posts();
-        //get my last post and insert it to the top
-		this.update_posts(posts.reverse());
+		this.update_posts(posts);
     }
 
 	async fetch_posts()

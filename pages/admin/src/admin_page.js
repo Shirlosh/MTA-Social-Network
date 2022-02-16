@@ -19,7 +19,7 @@ class AdminPage extends React.Component
         if (gate() == false)
         {
             alert("invalid access you are about to redirect");
-            window.location.replace('/home/index.html');
+            window.location.replace('/home/');
         }
         setInterval(() => {
             this.get_users();

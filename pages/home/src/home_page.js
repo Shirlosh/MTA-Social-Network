@@ -64,7 +64,7 @@ class HomePage extends React.Component
         }
 	}
 
-	componentDidMount() 
+	async componentDidMount() 
 	{
         gate()
         setInterval(async () => {
@@ -78,10 +78,13 @@ class HomePage extends React.Component
             if(this.state.messages.length < messages.length)
             {
                 this.setState({new_messages_indicator: true}) //set alert
+                this.setState({messages : messages })
             }
 
         }, 30000)
         this.get_posts()
+        const messages = await this.fetch_messages();
+        this.setState({messages:messages})
 	}
 
     async get_posts()
@@ -169,7 +172,7 @@ class HomePage extends React.Component
                         show={this.state.new_messages_indicator}
                         onClick={() => {
                             this.setState({new_messages_indicator: false})
-                            window.location.replace('/messages/index.html')
+                            window.location.replace('/messages/')
                         }}
                         text={'You have New Messages'}
                     />

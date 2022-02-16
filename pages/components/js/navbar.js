@@ -27,23 +27,23 @@ class NavBar extends React.Component {
 		console.log(response);
 		if (response.status == 200) {
 			console.log("sucesss");
-			window.location.replace('/login/index.html');
+			window.location.replace('/');
 		} else {
 			alert(response.message);
 		}
 	}
 
 	handle_home() {
-		window.location.replace('/home/index.html');
+		window.location.replace('/home/');
 	}
 	handle_messages() {
-		window.location.replace('/messages/index.html');
+		window.location.replace('/messages/');
 	}
 	handle_about() {
-		window.location.replace('/about/index.html');
+		window.location.replace('/about/');
 	}
 	handle_admin() {
-		window.location.replace('/admin/index.html');
+		window.location.replace('/admin/');
 	}
 
 	render() {

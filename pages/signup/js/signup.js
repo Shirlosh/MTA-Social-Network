@@ -25,7 +25,7 @@ class SignupPage extends React.Component {
 		console.log(response);
 		if (response.status == 200) {
 			console.log("sucesss");
-			window.location.replace('/login/index.html');
+			window.location.replace('/login/');
 		} else {
 			alert(response.message);
 		}

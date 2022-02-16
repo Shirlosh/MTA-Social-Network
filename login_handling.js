@@ -19,6 +19,13 @@ function login(req, res)
 	const idx = global_scope.users_list.get_index(id)
 	let lst = global_scope.users_list.get_list()
 
+  if(idx == -1)
+  {
+    res.status( StatusCodes.BAD_REQUEST)
+    res.send("this user doesnt exist")
+    return;
+  }
+
 	if(lst[idx].status == Status.suspended)
 	{
 		res.status(StatusCodes.FORBIDDEN);

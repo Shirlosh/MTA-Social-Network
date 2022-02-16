@@ -9,7 +9,7 @@ class NavBar extends React.Component {
 
 	async componentDidMount()
 	{
-		const response = await fetch('/is_admin');
+		const response = await fetch('/api/is_admin');
 		
 		if ( response.status != 200 )
 		  throw new Error( 'Error in user token');
@@ -19,7 +19,7 @@ class NavBar extends React.Component {
 	}
 
 	async handle_logout(){
-		const response = await fetch('/logout',{
+		const response = await fetch('/api/logout',{
 			headers: {
             	'Content-Type':'application/json',
             	'Accept':'application/json'

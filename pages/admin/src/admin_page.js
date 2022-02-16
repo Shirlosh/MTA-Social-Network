@@ -1,6 +1,5 @@
 const max_num_of_messages = 20
 
-
 class AdminPage extends React.Component 
 {
 	constructor(props) 
@@ -36,11 +35,10 @@ class AdminPage extends React.Component
 
 	async fetch_users()
 	{
-		const response = await fetch('/users');
+		const response = await fetch('/api/users');
 		if ( response.status != 200 )
 		  throw new Error( 'Error while fetching messages');
 		const data = await response.json();
-        await console.log("messages:", data)
 		return data;
 	}
 
@@ -55,7 +53,7 @@ class AdminPage extends React.Component
         event.preventDefault()
         const message_text = event.target[0].value
 
-        const response = await fetch('/message_users',{
+        const response = await fetch('/api/message_users',{
 			headers: {
             	'Content-Type':'application/json',
         	},
@@ -64,7 +62,7 @@ class AdminPage extends React.Component
 		});
         if ( response.status == 200 )
 		{
-            this.get_users();
+            alert("Messaged all users");
 		}
 		else 
 		{
@@ -76,30 +74,18 @@ class AdminPage extends React.Component
 	render() {
 		return <div style={{fontFamily: 'calibri light', fontSize: '2rem'}}>
                     <NavBar/>
-                    <MyAlert 
-                        show={this.state.new_posts_indicator}
-                        onHide={() => this.setState({new_posts_indicator: false})}
-                        text={'You have New Posts'}
-                    />
-                    <MyAlert 
-                        show={this.state.new_messages_indicator}
-                        onHide={() => this.setState({new_messages_indicator: false})}
-                        text={'You have New Messages'}
-                    />
-                    <br/>
                     <div className='container'>
-                    <h1>Users</h1>
-                    <Users users={this.state.users}/>
-                    <MyButton onClick={() => this.get_users()} text={'update users list'}/>
-                    <br/><br/>
-                        <form onSubmit={this.handle_new_message}>
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Send message to all:</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                <MySubmitButton text={'send'}/>
-                            </div>
-                        </form>
-                        <hr/>
+                        <h1>Users</h1>
+                        <Users users={this.state.users}/>
+                        <MyButton onClick={() => this.get_users()} text={'update users list'}/>
+                        <br/><hr/><br/>
+                            <form onSubmit={this.handle_new_message}>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Send message to all users:</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <MySubmitButton text={'send'}/>
+                                </div>
+                            </form>
                     </div>
 			   </div>
 	}
@@ -158,19 +144,20 @@ class Status extends React.Component
         if (event.target.value == "Active")
         {
             if(this.props.user.status == "Created")
-                response = await fetch('/approve_user/' + id , {method:'PUT'});
+                response = await fetch('/api/approve_user/' + id , {method:'PUT'});
             else if(this.props.user.status == "Suspended")
-                response = await fetch('/restore_user/' + id , {method:'PUT'})
+                response = await fetch('/api/restore_user/' + id , {method:'PUT'})
         }
         
         else if (event.target.value == "Suspended")
-            response = await fetch('/suspend_user/' + id , {method:'PUT'})
+            response = await fetch('/api/suspend_user/' + id , {method:'PUT'})
 
         else if(event.target.value == "Deleted")
-            response = await fetch('/user/' + id , {method:'DELETE'});
+            response = await fetch('/api/user/' + id , {method:'DELETE'});
 
         if ( response.status == 200 )
 		{
+            alert("Status updated");
 		}
 		else 
 		{

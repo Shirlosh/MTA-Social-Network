@@ -19,9 +19,6 @@ class AdminPage extends React.Component {
         }
         setInterval(() => {
             this.get_users();
-            // if(this.state.users.length < users.length)
-            //     this.setState({new_messages_indicator: true}) //set alert
-            // console.log("messages check")
         }, 1000);
         this.get_users();
     }
@@ -32,10 +29,9 @@ class AdminPage extends React.Component {
     }
 
     async fetch_users() {
-        const response = await fetch('/users');
+        const response = await fetch('/api/users');
         if (response.status != 200) throw new Error('Error while fetching messages');
         const data = await response.json();
-        await console.log("messages:", data);
         return data;
     }
 
@@ -47,7 +43,7 @@ class AdminPage extends React.Component {
         event.preventDefault();
         const message_text = event.target[0].value;
 
-        const response = await fetch('/message_users', {
+        const response = await fetch('/api/message_users', {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -55,7 +51,7 @@ class AdminPage extends React.Component {
             body: JSON.stringify({ message: message_text })
         });
         if (response.status == 200) {
-            this.get_users();
+            alert("Messaged all users");
         } else {
             const err = await response.text();
             alert(err);
@@ -67,17 +63,6 @@ class AdminPage extends React.Component {
             'div',
             { style: { fontFamily: 'calibri light', fontSize: '2rem' } },
             React.createElement(NavBar, null),
-            React.createElement(MyAlert, {
-                show: this.state.new_posts_indicator,
-                onHide: () => this.setState({ new_posts_indicator: false }),
-                text: 'You have New Posts'
-            }),
-            React.createElement(MyAlert, {
-                show: this.state.new_messages_indicator,
-                onHide: () => this.setState({ new_messages_indicator: false }),
-                text: 'You have New Messages'
-            }),
-            React.createElement('br', null),
             React.createElement(
                 'div',
                 { className: 'container' },
@@ -89,6 +74,7 @@ class AdminPage extends React.Component {
                 React.createElement(Users, { users: this.state.users }),
                 React.createElement(MyButton, { onClick: () => this.get_users(), text: 'update users list' }),
                 React.createElement('br', null),
+                React.createElement('hr', null),
                 React.createElement('br', null),
                 React.createElement(
                     'form',
@@ -99,13 +85,12 @@ class AdminPage extends React.Component {
                         React.createElement(
                             'label',
                             { 'for': 'exampleFormControlTextarea1' },
-                            'Send message to all:'
+                            'Send message to all users:'
                         ),
                         React.createElement('textarea', { 'class': 'form-control', id: 'exampleFormControlTextarea1', rows: '3' }),
                         React.createElement(MySubmitButton, { text: 'send' })
                     )
-                ),
-                React.createElement('hr', null)
+                )
             )
         );
     }
@@ -186,10 +171,12 @@ class Status extends React.Component {
         let id = this.props.user.id;
 
         if (event.target.value == "Active") {
-            if (this.props.user.status == "Created") response = await fetch('/approve_user/' + id, { method: 'PUT' });else if (this.props.user.status == "Suspended") response = await fetch('/restore_user/' + id, { method: 'PUT' });
-        } else if (event.target.value == "Suspended") response = await fetch('/suspend_user/' + id, { method: 'PUT' });else if (event.target.value == "Deleted") response = await fetch('/user/' + id, { method: 'DELETE' });
+            if (this.props.user.status == "Created") response = await fetch('/api/approve_user/' + id, { method: 'PUT' });else if (this.props.user.status == "Suspended") response = await fetch('/api/restore_user/' + id, { method: 'PUT' });
+        } else if (event.target.value == "Suspended") response = await fetch('/api/suspend_user/' + id, { method: 'PUT' });else if (event.target.value == "Deleted") response = await fetch('/api/user/' + id, { method: 'DELETE' });
 
-        if (response.status == 200) {} else {
+        if (response.status == 200) {
+            alert("Status updated");
+        } else {
             const err = await response.text();
             alert(err);
         }

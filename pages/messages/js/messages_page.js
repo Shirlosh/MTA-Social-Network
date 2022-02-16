@@ -62,12 +62,10 @@ class Messages extends React.Component {
 class MessagesPage extends React.Component {
     constructor(props) {
         super(props);
-        this.handle_new_post = this.handle_new_message.bind(this);
-        this.get_posts = this.get_messages.bind(this);
+        this.handle_new_message = this.handle_new_message.bind(this);
+        this.get_messages = this.get_messages.bind(this);
         this.state = {
-            messages: [],
-            new_posts_indicator: false,
-            new_messages_indicator: false
+            messages: []
         };
     }
 
@@ -76,7 +74,6 @@ class MessagesPage extends React.Component {
         setInterval(() => {
             const messages = this.fetch_messages();
             if (this.state.messages.length < messages.length) this.setState({ new_messages_indicator: true }); //set alert
-            console.log("messages check");
         }, 30000);
         this.get_messages();
     }
@@ -87,7 +84,7 @@ class MessagesPage extends React.Component {
     }
 
     async fetch_messages() {
-        const response = await fetch('/messages');
+        const response = await fetch('/api/messages');
         if (response.status != 200) throw new Error('Error while fetching messages');
         const data = await response.json();
         await console.log("messages:", data);
@@ -103,7 +100,7 @@ class MessagesPage extends React.Component {
         const receiver_id = event.target[0].value;
         const message_text = event.target[1].value;
 
-        const response = await fetch('/send_message/' + receiver_id, {
+        const response = await fetch('/api/send_message/' + receiver_id, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -111,7 +108,7 @@ class MessagesPage extends React.Component {
             body: JSON.stringify({ message: message_text })
         });
         if (response.status == 200) {
-            this.get_messages();
+            alert("Sent.");
         } else {
             const err = await response.text();
             alert(err);
@@ -123,16 +120,6 @@ class MessagesPage extends React.Component {
             'div',
             { style: { fontFamily: 'calibri light', fontSize: '2rem' } },
             React.createElement(NavBar, null),
-            React.createElement(MyAlert, {
-                show: this.state.new_posts_indicator,
-                onHide: () => this.setState({ new_posts_indicator: false }),
-                text: 'You have New Posts'
-            }),
-            React.createElement(MyAlert, {
-                show: this.state.new_messages_indicator,
-                onHide: () => this.setState({ new_messages_indicator: false }),
-                text: 'You have New Messages'
-            }),
             React.createElement('br', null),
             React.createElement(
                 'div',
@@ -158,7 +145,6 @@ class MessagesPage extends React.Component {
                         React.createElement(MySubmitButton, { text: 'send' })
                     )
                 ),
-                React.createElement('hr', null),
                 React.createElement(MyButton, { onClick: () => this.get_messages(), text: 'Check for new message' }),
                 React.createElement(
                     'h1',

@@ -1,5 +1,3 @@
-//import home_page from "../../home/src/home_page";
-
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
@@ -11,7 +9,7 @@ class Login extends React.Component {
 		const password = event.target[1].value;
 		console.log("submit");
 
-		const response = await fetch('/login', {
+		const response = await fetch('/api/login', {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json'
@@ -84,10 +82,11 @@ class Login extends React.Component {
 						'sign up'
 					)
 				),
+				React.createElement('hr', null),
 				React.createElement(
 					'button',
 					{ type: 'submit', 'class': 'btn btn-primary' },
-					'Submit'
+					'Login'
 				)
 			)
 		);

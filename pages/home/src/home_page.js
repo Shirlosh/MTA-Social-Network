@@ -58,19 +58,28 @@ class HomePage extends React.Component
 		this.get_posts = this.get_posts.bind(this)
 		this.state = {
             posts: [],
+            messages: [],
             new_posts_indicator: false,
             new_messages_indicator: false
         }
 	}
 
-	async componentDidMount() 
+	componentDidMount() 
 	{
         gate()
-        setInterval(() => {
-            const posts = this.fetch_posts();
+        setInterval(async () => {
+            const posts = await this.fetch_posts();
             if(this.state.posts.length < posts.length)
+            {
                 this.setState({new_posts_indicator: true}) //set alert
-            console.log("posts check")
+            }
+
+            const messages = await this.fetch_messages();
+            if(this.state.messages.length < messages.length)
+            {
+                this.setState({new_messages_indicator: true}) //set alert
+            }
+
         }, 30000)
         this.get_posts()
 	}
@@ -83,7 +92,7 @@ class HomePage extends React.Component
 
 	async fetch_posts()
 	{
-		const response = await fetch('/posts');
+		const response = await fetch('/api/posts');
 		if ( response.status != 200 )
 		  throw new Error( 'Error while fetching posts');
 		const data = await response.json();
@@ -91,9 +100,19 @@ class HomePage extends React.Component
 		return data;
 	}
 
+    async fetch_messages()
+	{
+		const response = await fetch('/api/messages');
+		if ( response.status != 200 )
+		  throw new Error( 'Error while fetching messages');
+		const data = await response.json();
+        await console.log("messages:", data)
+		return data;
+	}
+
 	async handle_delete( id )
 	{
-		const response = await fetch('/post/' + id , {method:'DELETE'});
+		const response = await fetch('/api/post/' + id , {method:'DELETE'});
 		if ( response.status == 200 )
 		{
             this.get_posts();
@@ -116,7 +135,7 @@ class HomePage extends React.Component
         event.preventDefault()
         const post_text = event.target[0].value
         
-        const response = await fetch('/post',{
+        const response = await fetch('/api/post',{
 			headers: {
             	'Content-Type':'application/json',
         	},
@@ -126,26 +145,13 @@ class HomePage extends React.Component
         if ( response.status == 200 )
 		{
             this.get_posts();
+            alert("Posted.")
 		}
 		else 
 		{
 		  const err = await response.text();
 		  alert( err );
 		}
-        /*
-        .then(result => result.json())
-			.then(response => {
-
-            console.log("response:", response)
-			if(response.statusCode === 200 || response.){
-                this.get_posts()
-			}
-			else{
-				alert(response.message)
-			}
-
-		})
-        */
     }
 
 	render() {
@@ -153,12 +159,18 @@ class HomePage extends React.Component
                     <NavBar/>
                     <MyAlert 
                         show={this.state.new_posts_indicator}
-                        onHide={() => this.setState({new_posts_indicator: false})}
+                        onClick={() => {
+                            this.setState({new_posts_indicator: false})
+                            this.get_posts()
+                        }}
                         text={'You have New Posts'}
                     />
                     <MyAlert 
                         show={this.state.new_messages_indicator}
-                        onHide={() => this.setState({new_messages_indicator: false})}
+                        onClick={() => {
+                            this.setState({new_messages_indicator: false})
+                            window.location.replace('/messages/index.html')
+                        }}
                         text={'You have New Messages'}
                     />
                     <br/>

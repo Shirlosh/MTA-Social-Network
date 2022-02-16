@@ -17,6 +17,7 @@ const reExt = /\.([a-z]+)/i;
 // 	res.setHeader("Content-Type", "application/json; charset=utf-8");
 // 	next()
 // }
+
 function content_type_from_extension( url)
 {
 	const m = url.match( reExt );
@@ -79,11 +80,12 @@ router.get('/messages', (req, res) => {LoginHandling.token_checker(req,res,Messa
 router.post('/send_message/:receiver_id', (req, res) => {LoginHandling.token_checker(req,res,MessagesHandling.send_message)}) // from user to user
 router.post('/message_users', (req, res) => {LoginHandling.token_checker(req,res,MessagesHandling.message_all_users)})
 
-app.use('/',router)
+//app.use('/',router)
 //app.use(cookieParser())
 //app.use(LoginHandling.token_checker)
 
-app.use(express.static(path.join(__dirname, 'pages'))); //added
+//app.use(express.static(path.join(__dirname, 'pages/login'))); //added
+app.use(express.static('pages')); //added
 app.use('/api',router) //added
 
 // Init 

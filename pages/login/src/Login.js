@@ -1,5 +1,3 @@
-//import home_page from "../../home/src/home_page";
-
 class Login extends React.Component 
 {
 	constructor(props) 
@@ -13,7 +11,7 @@ class Login extends React.Component
 		const password = event.target[1].value
 		console.log("submit")
 		
-		const response = await fetch('/login',{
+		const response = await fetch('/api/login',{
 			headers: {
             	'Content-Type':'application/json',
             	'Accept':'application/json'
@@ -52,18 +50,21 @@ class Login extends React.Component
 	
 
 	render() {
-		return <div><form onSubmit={e => this.handleSubmit(e)}>
-		<div class="mb-3">
-		  <label for="exampleInputEmail1" class="form-label">ID</label>
-		  <input type="number" class="form-control" id="exampleInputEmail1"/>
-		  
-		</div>
-		<div class="mb-3">
-		  <label for="exampleInputPassword1" class="form-label">Password</label>
-		  <input type="password" class="form-control" id="exampleInputPassword1"/>
-		</div>
-		<div> don't have user?  <a href="/signup/index.html">sign up</a></div>
-		<button type="submit" class="btn btn-primary">Submit</button>
-	  </form></div>
+		return 	<div>
+					<form onSubmit={e => this.handleSubmit(e)}>
+						<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">ID</label>
+						<input type="number" class="form-control" id="exampleInputEmail1"/>
+						
+						</div>
+						<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1"/>
+						</div>
+						<div> don't have user?  <a href="/signup/index.html">sign up</a></div>
+						<hr/>
+						<button type="submit" class="btn btn-primary">Login</button>
+					</form>
+				</div>
 	}
 }

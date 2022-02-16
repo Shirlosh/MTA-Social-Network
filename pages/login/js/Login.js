@@ -5,6 +5,7 @@ class Login extends React.Component {
 	}
 
 	async handleSubmit(event) {
+		event.preventDefault();
 		const id = event.target[0].value;
 		const password = event.target[1].value;
 		console.log("submit");
@@ -18,31 +19,14 @@ class Login extends React.Component {
 			body: JSON.stringify({ id: id, password: password }),
 			redirect: 'follow'
 		});
-		//.then(result => result.json())
-		//	.then(response => {
 		console.log(response);
 		if (response.status == 200) {
 			console.log("sucesss");
-			window.location.replace('/home/index.html');
+			window.location.replace('/home/');
 		} else {
-			alert(response.message);
+			const err = await response.text();
+			alert(err);
 		}
-
-		//})
-
-		//window.location.href("http://localhost:2718/home/home_page.html")
-		//console.log(response)
-		//props.history.push("../../home/home_page.html");		  
-
-		// if ( response.status == 200 )
-		// {
-		// 	props.history.push("../../home/home_page.html");		  
-		// }
-		// else 
-		// {
-		//   const err = await response.text();
-		//   alert( err );
-		// }		
 	}
 
 	render() {
@@ -54,23 +38,23 @@ class Login extends React.Component {
 				{ onSubmit: e => this.handleSubmit(e) },
 				React.createElement(
 					'div',
-					{ 'class': 'mb-3' },
+					{ className: 'mb-3' },
 					React.createElement(
 						'label',
-						{ 'for': 'exampleInputEmail1', 'class': 'form-label' },
+						{ htmlFor: 'exampleInputEmail1', className: 'form-label' },
 						'ID'
 					),
-					React.createElement('input', { type: 'number', 'class': 'form-control', id: 'exampleInputEmail1' })
+					React.createElement('input', { type: 'number', className: 'form-control', id: 'exampleInputEmail1' })
 				),
 				React.createElement(
 					'div',
-					{ 'class': 'mb-3' },
+					{ className: 'mb-3' },
 					React.createElement(
 						'label',
-						{ 'for': 'exampleInputPassword1', 'class': 'form-label' },
+						{ htmlFor: 'exampleInputPassword1', className: 'form-label' },
 						'Password'
 					),
-					React.createElement('input', { type: 'password', 'class': 'form-control', id: 'exampleInputPassword1' })
+					React.createElement('input', { type: 'password', className: 'form-control', id: 'exampleInputPassword1' })
 				),
 				React.createElement(
 					'div',
@@ -78,14 +62,14 @@ class Login extends React.Component {
 					' don\'t have user?  ',
 					React.createElement(
 						'a',
-						{ href: '/signup/index.html' },
+						{ href: '/signup/' },
 						'sign up'
 					)
 				),
 				React.createElement('hr', null),
 				React.createElement(
 					'button',
-					{ type: 'submit', 'class': 'btn btn-primary' },
+					{ type: 'submit', className: 'btn btn-primary' },
 					'Login'
 				)
 			)

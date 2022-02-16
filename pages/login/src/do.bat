@@ -1,1 +1,1 @@
-npx babel --presets react Login.js --out-dir ..\js 
+npx babel --presets react login.js --out-dir ..\js 

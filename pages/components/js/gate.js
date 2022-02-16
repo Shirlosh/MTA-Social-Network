@@ -7,7 +7,7 @@ async function gate(props) {
         let res = await response.json();
         return res;
     } else if (response.status == FORBIDDEN) {
-        window.location.replace('/login/index.html');
+        window.location.replace('/login/');
     } else {
         alert(response.message);
     }

@@ -74,12 +74,17 @@ function logout(req,res)
 function create_token(res,id)
 {
   let token = jwt.sign( {id: id} , 'secret', { expiresIn: '24h' }   );
-  res.cookie('auth',token, { httpOnly : false } );
+
+  document.cookie = "auth=" + token // + "; path=/"; new document doesnt exist
+
+  //res.cookie('auth',token, { httpOnly : false } ); // old
 }
 
 function token_checker(req, res, next)
 {
-  let token = req.headers.cookie
+  //let token = req.headers.cookie // old
+  let token = document.cookie //new ** document doesnt exist
+
 
   if (token) {
     token = token.split('=')[1]

@@ -11,6 +11,7 @@ function login(req, res)
 
   if(req.headers.cookie)
   {
+    // override the token if exist
     res.status(StatusCodes.BAD_REQUEST);
     res.send("Please logout before you login to another user")
     return;
@@ -21,7 +22,7 @@ function login(req, res)
 
   if(idx == -1)
   {
-    res.status( StatusCodes.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST)
     res.send("this user doesnt exist")
     return;
   }
@@ -56,7 +57,7 @@ function logout(req,res)
 {
   if (req.user_data)
   {
-    res.clearCookie('auth');
+    res.clearCookie('auth')
 
     res.status(StatusCodes.OK)
     res.send("user " + req.user_data['id'] + " logged out successfully")
@@ -74,17 +75,12 @@ function logout(req,res)
 function create_token(res,id)
 {
   let token = jwt.sign( {id: id} , 'secret', { expiresIn: '24h' }   );
-
-  document.cookie = "auth=" + token // + "; path=/"; new document doesnt exist
-
-  //res.cookie('auth',token, { httpOnly : false } ); // old
+  res.cookie('auth',token, { httpOnly : false } )
 }
 
 function token_checker(req, res, next)
 {
-  //let token = req.headers.cookie // old
-  let token = document.cookie //new ** document doesnt exist
-
+  let token = req.headers.cookie
 
   if (token) {
     token = token.split('=')[1]

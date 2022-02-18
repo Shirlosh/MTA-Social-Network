@@ -11,6 +11,8 @@ class Login extends React.Component
 		const id = event.target[0].value
 		const password = event.target[1].value
 		console.log("submit")
+
+//		Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
 		
 		const response = await fetch('/api/login',{
 			headers: {

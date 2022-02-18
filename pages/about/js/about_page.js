@@ -27,7 +27,7 @@ class AboutPage extends React.Component {
                 React.createElement(
                     'label',
                     null,
-                    '\u2022 Date: '
+                    '\u2022 Date: 18/02/2022 '
                 ),
                 React.createElement('br', null),
                 React.createElement(

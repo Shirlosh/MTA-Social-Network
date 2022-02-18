@@ -15,8 +15,9 @@ class AdminPage extends React.Component
 	}
 
 	async componentDidMount() 
-	{
-        if (gate() == false)
+	{   
+        let e = await gate()
+        if (e == false)
         {
             alert("invalid access you are about to redirect");
             window.location.replace('/home/');

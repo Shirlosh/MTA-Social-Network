@@ -20,7 +20,7 @@ class AboutPage extends React.Component
                     <div className='container'>
                         
                         <h1>Exercise 3 in JS Course</h1>
-                        <label>• Date: </label><br></br>
+                        <label>• Date: 18/02/2022 </label><br></br>
                         <label>• Details about submitters:</label><br></br>
                         <p> 
                             &emsp;Full Name: Shirley Alus<br></br>

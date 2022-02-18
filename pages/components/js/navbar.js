@@ -55,6 +55,12 @@ class NavBar extends React.Component {
 				{ 'class': 'btn-group btn-group-lg', role: 'group', 'aria-label': 'Basic outlined example' },
 				React.createElement(
 					'button',
+					{ onClick: this.handle_admin, type: 'button', 'class': 'btn btn-outline-dark',
+						style: this.state.indicator ? {} : { display: 'none' } },
+					'Admin'
+				),
+				React.createElement(
+					'button',
 					{ onClick: this.handle_home, type: 'button', 'class': 'btn btn-outline-dark' },
 					'Home'
 				),
@@ -65,19 +71,13 @@ class NavBar extends React.Component {
 				),
 				React.createElement(
 					'button',
-					{ onClick: this.handle_logout, type: 'button', 'class': 'btn btn-outline-dark' },
-					'Logout'
-				),
-				React.createElement(
-					'button',
 					{ onClick: this.handle_about, type: 'button', 'class': 'btn btn-outline-dark' },
 					'About'
 				),
 				React.createElement(
 					'button',
-					{ onClick: this.handle_admin, type: 'button', 'class': 'btn btn-outline-dark',
-						style: this.state.indicator ? {} : { display: 'none' } },
-					'Admin'
+					{ onClick: this.handle_logout, type: 'button', 'class': 'btn btn-outline-dark' },
+					'Logout'
 				)
 			)
 		);
